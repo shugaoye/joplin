@@ -1,0 +1,30 @@
+
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/javascript-node
+{
+	"name": "Joplin",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	// Features to add to the dev container. More info: https://containers.dev/features.
+	"features": {
+		"ghcr.io/devcontainers-contrib/features/tmux-apt-get:1": {}
+	},
+
+	//"capAdd": ["SYS_ADMIN"],
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	"forwardPorts": [22300],
+
+    "runArgs": [
+    	"-e", "DISPLAY=:0",
+    	"-e", "XAUTHORITY=/tmp/.Xauthority",
+    	"-v", "${localEnv:HOME}/.Xauthority:/tmp/.Xauthority",
+		"--privileged"
+	],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	"postCreateCommand": "/tmp/start_dbus.sh;yarn install"
+
+	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+	// "remoteUser": "root"
+}
