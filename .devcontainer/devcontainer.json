@@ -14,11 +14,19 @@
 	//"capAdd": ["SYS_ADMIN"],
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [22300],
-
-    "runArgs": [
+	"containerEnv": {
+		"JAVA_HOME": "/opt/android-studio/jbr",
+		"ANDROID_HOME": "/Android/Sdk"
+	},
+	"remoteEnv": {
+		"PATH": "${containerEnv:PATH}:${containerEnv:JAVA_HOME}/bin:${containerEnv:ANDROID_HOME}/platform-tools"
+	},
+	"runArgs": [
     	"-e", "DISPLAY=:0",
     	"-e", "XAUTHORITY=/tmp/.Xauthority",
     	"-v", "${localEnv:HOME}/.Xauthority:/tmp/.Xauthority",
+		"-v", "/opt/android-studio:/opt/android-studio",
+		"-v", "${localEnv:HOME}/Android:/Android",
 		"--privileged"
 	],
 
