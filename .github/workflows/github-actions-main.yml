@@ -84,6 +84,12 @@ jobs:
         run: |
           yarn install && cd packages/app-desktop && yarn dist --publish=never
 
+      - name: Upload Windows Build Output as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Joplin-Windows
+          path: dist\JoplinPortable.exe
+
       - name: Publish Docker manifest
         if: runner.os == 'Linux'
         env:
