@@ -6,7 +6,7 @@ on: [push, pull_request]
 
 jobs:
   AssembleRelease:
-    if: github.repository == 'laurent22/joplin'
+    if: github.repository == 'shugaoye/joplin'
     runs-on: ubuntu-latest
     steps:
       - name: Install Linux dependencies
