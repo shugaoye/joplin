@@ -59,6 +59,13 @@ jobs:
         run: |
           "${GITHUB_WORKSPACE}/.github/scripts/run_ci.sh"
 
+      - name: Upload Linux/macOS Build Output as Artifact
+        if: runner.os == 'Linux' || runner.os == 'macOs'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Joplin-${{ runner.os }}
+          path: packages/app-desktop/dist/*
+
       - name: Build and publish Windows app
         if: runner.os == 'Windows' && startsWith(github.ref, 'refs/tags/v')
         env:
@@ -72,6 +79,13 @@ jobs:
         run: |
           yarn install && cd packages/app-desktop && yarn dist
 
+      - name: Upload Windows Build Output as Artifact
+        if: runner.os == 'Windows'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Joplin-Windows  
+          path: packages/app-desktop/dist/*
+
       # Build and package the Windows app, without publishing it, just to
       # verify that the build process hasn't been broken.
       - name: Build Windows app (no publishing)
@@ -83,12 +97,6 @@ jobs:
           SERVER_TAG_PREFIX: server
         run: |
           yarn install && cd packages/app-desktop && yarn dist --publish=never
-
-      - name: Upload Windows Build Output as Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Joplin-Windows
-          path: dist\JoplinPortable.exe
 
       - name: Publish Docker manifest
         if: runner.os == 'Linux'
